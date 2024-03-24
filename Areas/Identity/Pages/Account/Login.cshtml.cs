@@ -120,12 +120,13 @@ namespace BlazorApp.Areas.Identity.Pages.Account
                 
                 ApplicationUser signedUser = await _userManager.FindByEmailAsync(Input.Email);
                
+               // Before there was signedUser.Email but something went wrong so i have to use .UserName :)
                 var result = await _signInManager.PasswordSignInAsync(signedUser.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    return Redirect("~/");
                 }
                 if (result.RequiresTwoFactor)
                 {
