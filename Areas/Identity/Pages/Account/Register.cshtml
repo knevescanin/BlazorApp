@@ -4,12 +4,44 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+<style>
+    .row {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+    .col-md-4 {
+        margin-top: 250px;
+        margin-bottom: 100px;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 50px;
+    }
+
+     .form-floating
+    {
+        color: gray;
+        font-weight: bold;
+    }
+
+    hr{
+        background-color: blue;
+    }
+
+    footer
+    {
+        text-align: center;
+    }
+</style>
 
 <div class="row">
     <div class="col-md-4">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
+            <h2>Register</h2>
             
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
