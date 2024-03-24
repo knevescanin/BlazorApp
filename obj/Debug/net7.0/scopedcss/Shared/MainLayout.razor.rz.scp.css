@@ -31,6 +31,13 @@ main[b-3ij3p7wwc4] {
         text-overflow: ellipsis;
     }
 
+    .px-4 a[b-3ij3p7wwc4]{
+    text-decoration: none; 
+    color: black;
+}
+
+
+
 @media (max-width: 640.98px) {
     .top-row:not(.auth)[b-3ij3p7wwc4] {
         display: none;

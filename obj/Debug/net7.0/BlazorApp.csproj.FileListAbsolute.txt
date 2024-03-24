@@ -274,3 +274,4 @@
 /Users/karlo/BlazorApp/obj/Debug/net7.0/BlazorApp.pdb
 /Users/karlo/BlazorApp/obj/Debug/net7.0/BlazorApp.genruntimeconfig.cache
 /Users/karlo/BlazorApp/obj/Debug/net7.0/ref/BlazorApp.dll
+/Users/karlo/BlazorApp/obj/Debug/net7.0/scopedcss/Shared/LoginDisplay.razor.rz.scp.css
