@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "a0DwegbBDCuNkqnMGrCwwj7b02cA5PYcz4fPyGVYhTs=",
+  "Hash": "dJ7Ogu2ug74XldExeBc5UZPkoui0TL2qvF97lY1HZDw=",
   "Source": "BlazorApp",
   "BasePath": "_content/BlazorApp",
   "Mode": "Default",
@@ -10,7 +10,7 @@
     {
       "Name": "BlazorApp/wwwroot",
       "Source": "BlazorApp",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "Pattern": "**"
     }
@@ -1157,10 +1157,10 @@
       "OriginalItemSpec": "/Users/karlo/.nuget/packages/microsoft.aspnetcore.identity.ui/6.0.1/staticwebassets/V5/lib/jquery/LICENSE.txt"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/obj/Debug/net7.0/scopedcss/bundle/BlazorApp.styles.css",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/obj/Debug/net7.0/scopedcss/bundle/BlazorApp.styles.css",
       "SourceId": "BlazorApp",
       "SourceType": "Computed",
-      "ContentRoot": "/Users/karlo/BlazorApp/obj/Debug/net7.0/scopedcss/bundle/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/obj/Debug/net7.0/scopedcss/bundle/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "BlazorApp.styles.css",
       "AssetKind": "All",
@@ -1173,13 +1173,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/karlo/BlazorApp/obj/Debug/net7.0/scopedcss/bundle/BlazorApp.styles.css"
+      "OriginalItemSpec": "/Users/karlo/BlazorApplication/BlazorApp/obj/Debug/net7.0/scopedcss/bundle/BlazorApp.styles.css"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/obj/Debug/net7.0/scopedcss/projectbundle/BlazorApp.bundle.scp.css",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/obj/Debug/net7.0/scopedcss/projectbundle/BlazorApp.bundle.scp.css",
       "SourceId": "BlazorApp",
       "SourceType": "Computed",
-      "ContentRoot": "/Users/karlo/BlazorApp/obj/Debug/net7.0/scopedcss/projectbundle/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/obj/Debug/net7.0/scopedcss/projectbundle/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "BlazorApp.bundle.scp.css",
       "AssetKind": "All",
@@ -1192,13 +1192,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/karlo/BlazorApp/obj/Debug/net7.0/scopedcss/projectbundle/BlazorApp.bundle.scp.css"
+      "OriginalItemSpec": "/Users/karlo/BlazorApplication/BlazorApp/obj/Debug/net7.0/scopedcss/projectbundle/BlazorApp.bundle.scp.css"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/wwwroot/css/bootstrap/bootstrap.min.css",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/css/bootstrap/bootstrap.min.css",
       "SourceId": "BlazorApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "css/bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -1214,10 +1214,10 @@
       "OriginalItemSpec": "wwwroot/css/bootstrap/bootstrap.min.css"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/wwwroot/css/bootstrap/bootstrap.min.css.map",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/css/bootstrap/bootstrap.min.css.map",
       "SourceId": "BlazorApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "css/bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -1233,10 +1233,10 @@
       "OriginalItemSpec": "wwwroot/css/bootstrap/bootstrap.min.css.map"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/wwwroot/css/open-iconic/FONT-LICENSE",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/css/open-iconic/FONT-LICENSE",
       "SourceId": "BlazorApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "css/open-iconic/FONT-LICENSE",
       "AssetKind": "All",
@@ -1252,10 +1252,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/FONT-LICENSE"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css",
       "SourceId": "BlazorApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "css/open-iconic/font/css/open-iconic-bootstrap.min.css",
       "AssetKind": "All",
@@ -1271,10 +1271,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/wwwroot/css/open-iconic/font/fonts/open-iconic.eot",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/css/open-iconic/font/fonts/open-iconic.eot",
       "SourceId": "BlazorApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.eot",
       "AssetKind": "All",
@@ -1290,10 +1290,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.eot"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/wwwroot/css/open-iconic/font/fonts/open-iconic.otf",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/css/open-iconic/font/fonts/open-iconic.otf",
       "SourceId": "BlazorApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.otf",
       "AssetKind": "All",
@@ -1309,10 +1309,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.otf"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/wwwroot/css/open-iconic/font/fonts/open-iconic.svg",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/css/open-iconic/font/fonts/open-iconic.svg",
       "SourceId": "BlazorApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.svg",
       "AssetKind": "All",
@@ -1328,10 +1328,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.svg"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/wwwroot/css/open-iconic/font/fonts/open-iconic.ttf",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/css/open-iconic/font/fonts/open-iconic.ttf",
       "SourceId": "BlazorApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.ttf",
       "AssetKind": "All",
@@ -1347,10 +1347,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.ttf"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/wwwroot/css/open-iconic/font/fonts/open-iconic.woff",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/css/open-iconic/font/fonts/open-iconic.woff",
       "SourceId": "BlazorApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.woff",
       "AssetKind": "All",
@@ -1366,10 +1366,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.woff"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/wwwroot/css/open-iconic/ICON-LICENSE",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/css/open-iconic/ICON-LICENSE",
       "SourceId": "BlazorApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "css/open-iconic/ICON-LICENSE",
       "AssetKind": "All",
@@ -1385,10 +1385,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/ICON-LICENSE"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/wwwroot/css/open-iconic/README.md",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/css/open-iconic/README.md",
       "SourceId": "BlazorApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "css/open-iconic/README.md",
       "AssetKind": "All",
@@ -1404,10 +1404,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/README.md"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/wwwroot/css/site.css",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/css/site.css",
       "SourceId": "BlazorApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -1423,10 +1423,10 @@
       "OriginalItemSpec": "wwwroot/css/site.css"
     },
     {
-      "Identity": "/Users/karlo/BlazorApp/wwwroot/favicon.png",
+      "Identity": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/favicon.png",
       "SourceId": "BlazorApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/karlo/BlazorApp/wwwroot/",
+      "ContentRoot": "/Users/karlo/BlazorApplication/BlazorApp/wwwroot/",
       "BasePath": "_content/BlazorApp",
       "RelativePath": "favicon.png",
       "AssetKind": "All",
