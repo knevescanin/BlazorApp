@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GjpKjNGmatyw+8SbLq6geacl59A/WDtmA4L4yd5K1skiFSDZc7+/zXpmuXvQqhSqfVck/K74Ri0Z8QDl+fdk5w==",
+  "dgSpecHash": "U8PdF23d96An5lUnpJ3WZ9V8t77zJiJRZis78Dt+ACvCy9Fr8KQpCeTFPfKz6jyIt12VBXGEXW6y/DU83FDtzw==",
   "success": true,
-  "projectFilePath": "/Users/karlo/BlazorApp/BlazorApp.csproj",
+  "projectFilePath": "/Users/karlo/BlazorApplication/BlazorApp/BlazorApp.csproj",
   "expectedPackageFiles": [
     "/Users/karlo/.nuget/packages/entityframework/6.1.0/entityframework.6.1.0.nupkg.sha512",
     "/Users/karlo/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
