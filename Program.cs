@@ -11,14 +11,19 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("BlazorAppIdentityDbContextConnection");
 builder.Services.AddDbContext<BlazorAppIdentityDbContext>(options =>
     options.UseSqlServer(connectionString));
-    builder.Services.AddDefaultIdentity<IdentityUser>(
-        options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(
+        options => {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.SignIn.RequireConfirmedEmail = false;
+        }
+        )
+        .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<BlazorAppIdentityDbContext>();
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
 
 var app = builder.Build();
 

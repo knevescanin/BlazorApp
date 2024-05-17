@@ -4,6 +4,7 @@ using BlazorApp.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorApp.Migrations
 {
     [DbContext(typeof(BlazorAppIdentityDbContext))]
-    partial class BlazorAppIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240322204928_ApplicationUser2")]
+    partial class ApplicationUser2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,20 +122,6 @@ namespace BlazorApp.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "a4ae22ab-ac9e-4430-bf2f-5c1ba0497ac1",
-                            Name = "admin",
-                            NormalizedName = "admin"
-                        },
-                        new
-                        {
-                            Id = "2658cf87-f216-42a7-b685-39455099c9e3",
-                            Name = "user",
-                            NormalizedName = "user"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

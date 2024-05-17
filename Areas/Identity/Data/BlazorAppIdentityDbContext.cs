@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlazorApp.Areas.Identity.Data;
 
-public class BlazorAppIdentityDbContext : IdentityDbContext<IdentityUser>
+public class BlazorAppIdentityDbContext : IdentityDbContext<ApplicationUser>
 {
     public BlazorAppIdentityDbContext(DbContextOptions<BlazorAppIdentityDbContext> options)
         : base(options)
@@ -17,5 +17,26 @@ public class BlazorAppIdentityDbContext : IdentityDbContext<IdentityUser>
         // Customize the ASP.NET Identity model and override the defaults if needed.
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
+
+        var admin = new IdentityRole("admin");
+        admin.NormalizedName = "admin";
+
+        var user = new IdentityRole("user");
+        user.NormalizedName = "user";
+
+        builder.Entity<IdentityRole>()
+        .HasData(admin, user);
+
+        builder.Entity<ApplicationUser>()
+            .Property(u => u.FirstName)
+            .HasMaxLength(50);
+
+        builder.Entity<ApplicationUser>()
+            .Property(u => u.LastName)
+            .HasMaxLength(50);
+
+            builder.Entity<ApplicationUser>()
+            .Property(u => u.UserName)
+            .HasMaxLength(50);
     }
 }
