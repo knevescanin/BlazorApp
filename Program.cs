@@ -17,6 +17,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(
         options.SignIn.RequireConfirmedEmail = false;
         }
         )
+        .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<BlazorAppIdentityDbContext>();
 // Add services to the container.
 builder.Services.AddRazorPages();

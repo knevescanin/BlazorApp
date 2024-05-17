@@ -18,6 +18,15 @@ public class BlazorAppIdentityDbContext : IdentityDbContext<ApplicationUser>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
 
+        var admin = new IdentityRole("admin");
+        admin.NormalizedName = "admin";
+
+        var user = new IdentityRole("user");
+        user.NormalizedName = "user";
+
+        builder.Entity<IdentityRole>()
+        .HasData(admin, user);
+
         builder.Entity<ApplicationUser>()
             .Property(u => u.FirstName)
             .HasMaxLength(50);
