@@ -1,4 +1,8 @@
-﻿<AuthorizeView>
+﻿@using BlazorApp.Areas.Identity.Data;
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Authorization;
+
+<AuthorizeView>
     <Authorized>
         <a href="Identity/Account/Manage" style="text-decoration: none; color: black;">Hello, @context.User.Identity?.Name</a>
         <form method="post" action="Identity/Account/Logout">
