@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using BlazorApp.Areas.Identity.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using BlazorApp.Areas.Identity;
+using BlazorApp.Repositories;
+using BlazorApp.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("BlazorAppIdentityDbContextConnection");
@@ -24,6 +26,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
+builder.Services.AddTransient<IImageUploadRepository,ImageUploadRepository>();
+builder.Services.AddTransient<IFileUploadService,FileUploadService>();
 
 var app = builder.Build();
 

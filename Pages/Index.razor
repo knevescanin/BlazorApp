@@ -1,9 +1,134 @@
 ﻿@page "/"
-
-<PageTitle>Index</PageTitle>
+@*<PageTitle>Index</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<SurveyPrompt Title="How is Blazor working for you?" />*@
+
+@using BlazorApp.Models;
+@using BlazorApp.Repositories;
+@using BlazorApp.Utilities;
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.Extensions.Logging
+
+@inject ILogger<Index> Logger
+@inject IFileUploadService fileService
+@inject IImageUploadRepository imageUploadRepo
+
+<AuthorizeView>
+    <Authorized Context="authContext">
+
+    <EditForm Model="@imageModel" OnValidSubmit="@HandleFormSubmit">
+        <p style="font-weight: bold;">Select File(s): </p>
+        <InputFile OnChange="@SelectFiles" multiple />
+        <br />
+        <button class="mt-3"type="submit" style="background-color: lightblue; border-radius: 20px; border: none; color:black; font-weight: bold;">Upload</button>
+    </EditForm>
+
+    @if (loading)
+    {
+        <span>Uploading...</span>
+    }
+
+    <ul style="list-style:none">
+        @foreach (var message in messages)
+        {
+            <li>
+                @message
+            </li>
+        }
+    </ul>
+
+    @if(images.Count>0)
+    {
+    <h2>Images</h2>
+     <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        @foreach (var image in images)
+        {
+                <img src="/Uploads/@image.ImageName" alt="image">
+        }
+    </div>
+    }
+    </Authorized>
+    
+    <NotAuthorized>
+        <p class="m-3" style="color: red; font-size:20px;">Please login or register if you don't have an account!</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    bool loading = false;
+    List<string> messages = new();
+    List<IBrowserFile> files = new();
+    int maxFileSize = 1 * 1024 * 1024;
+    
+    ImageFile imageModel = new();
+
+    List<ImageFile> images = new();
+
+    private async void SelectFiles(InputFileChangeEventArgs e)
+    {
+        files = e.GetMultipleFiles(maxFileSize).ToList();
+    }
+
+    private async Task HandleFormSubmit()
+    {
+        loading = true;
+        messages.Clear();
+        var allowedExtenstions = new string[] { ".png", ".jpg", ".jpeg", ".gif" };
+        int count = 0;
+        foreach (var file in files)
+        {
+            try
+            {
+                (int statusCode, string statusMessage) = await fileService.UploadFileAsync(file, maxFileSize, allowedExtenstions);
+                if (statusCode == 1)
+                {
+                    messages.Add($"File : {file.Name} uploaded");
+                    var imageData = new ImageFile
+                        {
+                            ImageName = statusMessage
+                        };
+                    // saving imagename to database
+                    await imageUploadRepo.UploadImageToDb(imageData);
+                    count++;
+                }
+                else
+                    messages.Add(statusMessage);
+
+            }
+            catch (Exception ex)
+            {
+                messages.Add($"File : {file.Name} Error : {ex.Message}");
+                Logger.LogError(ex.Message);
+            }
+        }
+
+        loading = false;
+        messages.Add($"{count}/{files.Count} uploaded");
+    }
+
+     protected override async Task OnInitializedAsync()
+    {
+        messages.Clear();
+        loading = true;
+        await LoadImages();
+        loading = false;
+    }
+
+     private async Task LoadImages()
+    {
+        try
+        {
+            images = (await imageUploadRepo.GetImages()).ToList();
+        }
+        catch(Exception ex)
+        {
+            messages.Add("Could not load images");
+        }
+    }
+
+}
