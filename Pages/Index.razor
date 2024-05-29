@@ -12,10 +12,13 @@ Welcome to your new app.
 @using BlazorApp.Utilities;
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.Extensions.Logging
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
 
 @inject ILogger<Index> Logger
 @inject IFileUploadService fileService
 @inject IImageUploadRepository imageUploadRepo
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <AuthorizeView>
     <Authorized Context="authContext">
@@ -47,7 +50,12 @@ Welcome to your new app.
      <div style="display:flex;gap:20px;flex-wrap:wrap;">
         @foreach (var image in images)
         {
-                <img src="/Uploads/@image.ImageName" alt="image">
+           
+                <div style="text-align: center;">
+                        <img src="/Uploads/@image.ImageName" alt="image" style="object-fit: contain; width: 250px; height: 200px;" />
+                        <!-- Display the upload date and time -->
+                        <p style="color: gray;">@image.DateUploaded.ToString("dd-MM-yyyy HH:mm:ss")</p>
+                    </div>
         }
     </div>
     }
@@ -90,10 +98,12 @@ Welcome to your new app.
                     messages.Add($"File : {file.Name} uploaded");
                     var imageData = new ImageFile
                         {
-                            ImageName = statusMessage
+                            ImageName = statusMessage,
+                            DateUploaded = DateTime.Now
                         };
                     // saving imagename to database
-                    await imageUploadRepo.UploadImageToDb(imageData);
+                    var userId = await GetUserId();
+                    await imageUploadRepo.UploadImageToDb(imageData, userId);
                     count++;
                 }
                 else
@@ -123,12 +133,21 @@ Welcome to your new app.
     {
         try
         {
-            images = (await imageUploadRepo.GetImages()).ToList();
+            var userId = await GetUserId();
+            images = (await imageUploadRepo.GetImages(userId)).ToList();
         }
         catch(Exception ex)
         {
-            messages.Add("Could not load images");
+           messages.Add($"Could not load images. Error: {ex.Message}");
+            Logger.LogError(ex, "Error loading images");
         }
+    }
+
+    private async Task<string> GetUserId()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     }
 
 }

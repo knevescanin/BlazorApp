@@ -6,8 +6,8 @@ using System.Data;
 namespace BlazorApp.Repositories;
 public interface IImageUploadRepository
 {
-    Task UploadImageToDb(ImageFile image);
-    Task<IEnumerable<ImageFile>> GetImages();
+    Task UploadImageToDb(ImageFile image, string userId);
+    Task<IEnumerable<ImageFile>> GetImages(string userId);
 }
 
 public class ImageUploadRepository : IImageUploadRepository
@@ -21,20 +21,21 @@ public class ImageUploadRepository : IImageUploadRepository
         _config = config;
     }
 
-    public async Task UploadImageToDb(ImageFile image)
+    public async Task UploadImageToDb(ImageFile image, string userId)
     {
         var connectionString = _config.GetConnectionString(CONN_KEY); 
         using IDbConnection connection = new SqlConnection(connectionString);
-        string sql = "insert into ImageFile (ImageName) values (@ImageName)";
-        await connection.ExecuteAsync(sql, new { ImageName = image.ImageName});
+        string sql = "INSERT INTO ImageFile (ImageName, UserId, DateUploaded) VALUES (@ImageName, @UserId, @DateUploaded)";
+        await connection.ExecuteAsync(sql, new { ImageName = image.ImageName, UserId = userId, DateUploaded = image.DateUploaded });
     }
 
-    public async Task <IEnumerable<ImageFile>> GetImages()
+    public async Task<IEnumerable<ImageFile>> GetImages(string userId)
     {
         var connectionString = _config.GetConnectionString(CONN_KEY);
         using IDbConnection connection = new SqlConnection(connectionString);
-        string sql = "select * from ImageFile";
-        var images = await connection.QueryAsync<ImageFile>(sql);
+        string sql = "SELECT * FROM ImageFile WHERE UserId = @UserId ORDER BY DateUploaded DESC";
+        var images = await connection.QueryAsync<ImageFile>(sql, new { UserId = userId });
+
         return images;
     }
 }
