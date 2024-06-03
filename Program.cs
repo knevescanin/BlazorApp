@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using BlazorApp.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BlazorApp.Areas.Identity.Data;
@@ -24,7 +23,6 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
 builder.Services.AddTransient<IImageUploadRepository,ImageUploadRepository>();
 builder.Services.AddTransient<IFileUploadService,FileUploadService>();

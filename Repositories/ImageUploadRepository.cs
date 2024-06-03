@@ -8,6 +8,7 @@ public interface IImageUploadRepository
 {
     Task UploadImageToDb(ImageFile image, string userId);
     Task<IEnumerable<ImageFile>> GetImages(string userId);
+    Task DeleteImageFromDb(int imageId, string userId);
 }
 
 public class ImageUploadRepository : IImageUploadRepository
@@ -37,5 +38,13 @@ public class ImageUploadRepository : IImageUploadRepository
         var images = await connection.QueryAsync<ImageFile>(sql, new { UserId = userId });
 
         return images;
+    }
+
+     public async Task DeleteImageFromDb(int imageId, string userId)
+    {
+        var connectionString = _config.GetConnectionString(CONN_KEY);
+        using IDbConnection connection = new SqlConnection(connectionString);
+        string sql = "DELETE FROM ImageFile WHERE Id = @Id AND UserId = @UserId";
+        await connection.ExecuteAsync(sql, new { Id = imageId, UserId = userId });
     }
 }

@@ -4,13 +4,13 @@
 
 <AuthorizeView>
     <Authorized>
-        <a href="Identity/Account/Manage" style="text-decoration: none; color: black;">Hello, @context.User.Identity?.Name</a>
+        <a href="Identity/Account/Manage" style="text-decoration: none; color: white;">Hello, <span style="font-weight: bold;">@context.User.Identity?.Name </span></a>
         <form method="post" action="Identity/Account/Logout">
-            <button type="submit" class="nav-link btn btn-link" style="text-decoration: none; color: black;">Log out</button>
+            <button type="submit" class="nav-link btn btn-link" style="text-decoration: none; color: white;">Log out</button>
         </form>
     </Authorized>
     <NotAuthorized>
-        <a href="Identity/Account/Register" style="text-decoration: none; color: black;">Register</a>
-        <a href="Identity/Account/Login" style="text-decoration: none; color: black;">Log in</a>
+        <a href="Identity/Account/Register" style="text-decoration: none; color: white;">Register</a>
+        <a href="Identity/Account/Login" style="text-decoration: none; color: white;">Log in</a>
     </NotAuthorized>
 </AuthorizeView>
