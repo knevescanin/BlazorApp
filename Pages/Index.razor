@@ -7,11 +7,13 @@
 @using Microsoft.Extensions.Logging
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
+@using Microsoft.AspNetCore.SignalR.Client;
 
 @inject ILogger<Index> Logger
 @inject IFileUploadService fileService
 @inject IImageUploadRepository imageUploadRepo
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
 
 <AuthorizeView>
     <Authorized Context="authContext">
@@ -44,7 +46,7 @@
     {
     <hr class="mb-4 mt-3" style="color: blue; height: 1.75px;">
     <h2 style="font-weight: bold;">Uploaded Images</h2>
-     <div style="display:flex; justify-content: space-between; gap: 15px; flex-wrap:wrap;">
+     <div style="display:flex; gap: 20px; flex-wrap:wrap;">
         @foreach (var image in images)
         {
            
@@ -100,6 +102,8 @@
     private string selectedImageUrl;
      private int selectedImageId;
 
+     private HubConnection hubConnection;
+
     private async void SelectFiles(InputFileChangeEventArgs e)
     {
         files = e.GetMultipleFiles(maxFileSize).ToList();
@@ -126,7 +130,7 @@
                         };
                     // saving imagename to database
                     var userId = await GetUserId();
-                    await imageUploadRepo.UploadImageToDb(imageData, userId);
+                    await hubConnection.SendAsync("UploadImageToDb", imageData, userId);
                     count++;
                 }
                 else
@@ -146,6 +150,24 @@
 
      protected override async Task OnInitializedAsync()
     {
+
+        hubConnection = new HubConnectionBuilder() // Added for SignalR
+            .WithUrl(Navigation.ToAbsoluteUri("/imagehub")) // Added for SignalR
+            .Build(); // Added for SignalR
+
+        hubConnection.On<string>("ReceiveImageUpdate", (imageId) => // Added for SignalR
+        {
+            LoadImages(); // Reload images when an update is received
+        }); // Added for SignalR
+
+        hubConnection.On<int>("ReceiveImageDelete", (imageId) => // Added for SignalR
+        {
+            images.RemoveAll(image => image.Id == imageId);
+            StateHasChanged(); // Update the UI when an image is deleted
+        }); // Added for SignalR
+
+        await hubConnection.StartAsync(); // Added for SignalR
+
 
         messages.Clear();
         loading = true;
@@ -184,10 +206,8 @@
      private async Task DeleteImage(int imageId)
     {
         var userId = await GetUserId();
-        await imageUploadRepo.DeleteImageFromDb(imageId, userId);
-        await LoadImages();
+        await hubConnection.SendAsync("DeleteImageFromDb", imageId, userId);
         isModalVisible = false;
     }
 
 }
-

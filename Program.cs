@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using BlazorApp.Areas.Identity;
 using BlazorApp.Repositories;
 using BlazorApp.Utilities;
+using Microsoft.AspNetCore.SignalR;
+using BlazorApp.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("BlazorAppIdentityDbContextConnection");
@@ -26,6 +28,8 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
 builder.Services.AddTransient<IImageUploadRepository,ImageUploadRepository>();
 builder.Services.AddTransient<IFileUploadService,FileUploadService>();
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -47,5 +51,7 @@ app.UseAuthorization();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+app.MapHub<ImageHub>("/imagehub");
 
 app.Run();
