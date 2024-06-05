@@ -2,15 +2,11 @@
 
 <PageTitle>BlazorApp</PageTitle>
 
-
 <div class="page">
     
-
-
-    <main>
+    <main class="main">
         <div class="top-row px-4">
             <LoginDisplay />
-                
         </div>
             <Sidebar isExpanded="@isExpanded" IsExpandedChanged="@(value => isExpanded = value)" />
 
@@ -21,15 +17,12 @@
     </main>
 </div>
 
-
-
 @code{
-    public bool isExpanded { get; set; }
+     public bool isExpanded { get; set; }
 
      protected override void OnInitialized()
     {
         
         isExpanded = false;
     }
-
 }

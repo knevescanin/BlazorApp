@@ -4,6 +4,7 @@ using BlazorApp.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorApp.Migrations
 {
     [DbContext(typeof(BlazorAppIdentityDbContext))]
-    partial class BlazorAppIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240604182905_Migrations6")]
+    partial class Migrations6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,7 +120,7 @@ namespace BlazorApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ImageFile", (string)null);
+                    b.ToTable("ImageFile");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -150,13 +152,13 @@ namespace BlazorApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "20348bcf-31d4-431f-8e24-121c3bd9824f",
+                            Id = "40664e2c-7f67-4ce9-8ec2-e190ff72ecd6",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "e6965dc4-7d4b-43ab-a1d7-4ead9ec46cbf",
+                            Id = "4c1fe75a-008f-45c4-a472-05005a8c33a5",
                             Name = "user",
                             NormalizedName = "user"
                         });

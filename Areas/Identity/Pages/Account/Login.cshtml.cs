@@ -111,30 +111,38 @@ namespace BlazorApp.Areas.Identity.Pages.Account
 
                 
                 ApplicationUser signedUser = await _userManager.FindByEmailAsync(Input.Email);
+
+                if(signedUser != null){
                
-               // Before there was signedUser.Email but something went wrong so i have to use .UserName :)
-                var result = await _signInManager.PasswordSignInAsync(signedUser.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User logged in.");
-                    return Redirect("~/");
+                // Before there was signedUser.Email but something went wrong so i have to use .UserName :)
+                    var result = await _signInManager.PasswordSignInAsync(signedUser.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                    
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("User logged in.");
+                        return Redirect("~/");
+                    }
+                    if (result.RequiresTwoFactor)
+                    {
+                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    }
+                    if (result.IsLockedOut)
+                    {
+                        _logger.LogWarning("User account locked out.");
+                        return RedirectToPage("./Lockout");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        return Page();
+                    }
                 }
-                if (result.RequiresTwoFactor)
+
+                else 
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    ModelState.AddModelError(string.Empty, "Email does not exist.");
+                        return Page();
                 }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
-                }
-                
             }
 
             // If we got this far, something failed, redisplay form

@@ -1,3 +1,4 @@
+using BlazorApp.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace BlazorApp.Areas.Identity.Data
@@ -9,6 +10,6 @@ namespace BlazorApp.Areas.Identity.Data
 
         public string? LastName { get; set; }
 
-
+        public ICollection<ImageFile> ImageFiles { get; set; }
     }
 }

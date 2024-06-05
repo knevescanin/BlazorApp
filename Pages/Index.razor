@@ -1,4 +1,5 @@
 ﻿@page "/store"
+@attribute [Authorize(Roles = "user")]
 
 @using BlazorApp.Models;
 @using BlazorApp.Repositories;
@@ -31,7 +32,7 @@
         <span>Uploading...</span>
     }
 
-    <ul>
+    <ul style="list-style-type:none; color: blue;">
         @foreach (var message in messages)
         {
             <li>
@@ -46,7 +47,7 @@
     {
     <hr class="mb-4 mt-3" style="color: blue; height: 1.75px;">
     <h2 style="font-weight: bold;">Uploaded Images</h2>
-     <div style="display:flex; gap: 20px; flex-wrap:wrap;">
+     <div style="display:flex; gap: 20px; flex-wrap:wrap; @(images.Count > 4 ? "justify-content: space-evenly" : "")">
         @foreach (var image in images)
         {
            
@@ -108,6 +109,7 @@
     {
         files = e.GetMultipleFiles(maxFileSize).ToList();
     }
+
 
     private async Task HandleFormSubmit()
     {
@@ -187,6 +189,8 @@
            messages.Add($"Could not load images. Error: {ex.Message}");
             Logger.LogError(ex, "Error loading images");
         }
+        messages.Clear();
+        StateHasChanged();
     }
 
     private async Task<string> GetUserId()

@@ -1,12 +1,17 @@
 @page "/usermanager"
+@attribute [Authorize(Roles = "admin")]
 
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
 @using BlazorApp.Areas.Identity.Data
+@using Microsoft.AspNetCore.SignalR.Client
 
 @inject UserManager<ApplicationUser> _UserManager
 @inject RoleManager<IdentityRole> _RoleManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+@inject BlazorAppIdentityDbContext _context
+
 
 
 
@@ -124,9 +129,33 @@
     string stringError = "";
     bool Popup = false;
 
+    private HubConnection hubConnection;
+
     protected override async Task OnInitializedAsync()
     {
         await getUsers();
+        await SetupSignalR();
+    }
+
+    private async Task SetupSignalR()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/userhub"))
+            .Build();
+
+        hubConnection.On<string>("ReceiveUserUpdate", async (userId) =>
+        {
+            await getUsers();
+            StateHasChanged();
+        });
+
+        hubConnection.On<string>("ReceiveUserDelete", async (userId) =>
+        {
+            await getUsers();
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
     }
 
     private async Task updateUser()
@@ -157,6 +186,7 @@
             }
             Popup = false;
             await getUsers();
+            await hubConnection.SendAsync("SendUserUpdate", user.Id);
         }
     }
 
@@ -176,17 +206,28 @@
         Popup = true;
     }
 
-    private async Task deleteUser()
-    {
-        Popup = false;
-        var _user = await _UserManager.FindByIdAsync(user.Id);
+   private async Task deleteUser()
+{
+    Popup = false;
+    var _user = await _UserManager.FindByIdAsync(user.Id);
 
-        if (_user != null)
-        {
-            await _UserManager.DeleteAsync(_user);
-            await getUsers();
-        }
+    if (_user != null)
+    {
+        // Delete related ImageFiles before deleting the user
+        var userImageFiles = _context.ImageFiles.Where(i => i.UserId == _user.Id);
+        _context.ImageFiles.RemoveRange(userImageFiles);
+        await _context.SaveChangesAsync();
+
+        // Now delete the user
+        await _UserManager.DeleteAsync(_user);
+
+        // Optionally, reload the users after deletion
+        await getUsers();
+
+        // Optionally, notify clients about the user deletion
+        await hubConnection.SendAsync("SendUserDelete", user.Id);
     }
+}
 
     // Added method to delete specific role of the user
     private async Task deleteUserRole(string role)
@@ -200,6 +241,7 @@
             {
                 userRoles.Remove(role);
                 await getUsers();
+                await hubConnection.SendAsync("SendUserUpdate", user.Id);
             }
             else
             {

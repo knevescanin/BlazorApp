@@ -1,3 +1,5 @@
+using BlazorApp.Areas.Identity.Data;
+
 namespace BlazorApp.Models
 {
     public class ImageFile
@@ -8,5 +10,7 @@ namespace BlazorApp.Models
         public string UserId { get; set; }
 
         public DateTime DateUploaded { get; set; }
+
+        public ApplicationUser User { get; set; }
     }
 }

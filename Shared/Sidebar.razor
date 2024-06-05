@@ -2,33 +2,34 @@
 <div class="container @(isExpanded ? "expand" : "collapse")" @onmouseenter="Expand" @onmouseleave="Collapse">
 
 
-<a class="navbar-brand" href="/homepage">StoreMe</a>
-    <NavLink class="menu-item" href="homepage">
+<a class="navbar-brand" href="/">🖼️ PicLocker</a>
+    <NavLink class="menu-item" href="">
         <span class="oi oi-home menu-icon">
             <span class="menu-name">Home</span>
         </span>
     </NavLink>
 
+    <AuthorizeView Roles="user">    
+        <hr>
 
-<AuthorizeView>
-    
-    <hr>
+            <NavLink class="menu-item" href="store">
+                <span class="oi oi-data-transfer-upload menu-icon">
+                    <span class="menu-name">Store</span>
+                </span>
+            </NavLink>
+    </AuthorizeView>
 
-        <NavLink class="menu-item" href="store">
-            <span class="oi oi-data-transfer-upload menu-icon">
-                <span class="menu-name">Store</span>
-            </span>
-        </NavLink>
+    <AuthorizeView Roles="admin">
+        <hr>
 
-    <hr>
-
-        <NavLink class="menu-item" href="usermanager">
-            <span class="oi oi-people menu-icon">
-                <span class="menu-name">User Manager</span>
-            </span>
-        </NavLink>
+            <NavLink class="menu-item" href="usermanager">
+                <span class="oi oi-people menu-icon">
+                    <span class="menu-name">User Manager</span>
+                </span>
+            </NavLink>
     </AuthorizeView>
 </div>
+
 
 @code {
     [Parameter]

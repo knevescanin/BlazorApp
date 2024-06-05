@@ -50,8 +50,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
 
 app.MapHub<ImageHub>("/imagehub");
+app.MapHub<UserHub>("/userhub");
+app.MapFallbackToPage("/_Host");
+
 
 app.Run();

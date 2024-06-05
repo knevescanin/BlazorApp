@@ -1,11 +1,15 @@
 using Microsoft.AspNetCore.SignalR;
-using System.Threading.Tasks;
 
 public class UserHub : Hub
 {
-    public async Task UpdateUser(string userId)
+    public async Task SendUserUpdate(string userId)
     {
-        // Call a method on the client side to update the UI
-        await Clients.All.SendAsync("UserUpdated", userId);
+        await Clients.All.SendAsync("ReceiveUserUpdate", userId);
     }
+    
+    public async Task SendUserDelete(string userId)
+    {
+        await Clients.All.SendAsync("ReceiveUserDelete", userId);
+    }
+    
 }

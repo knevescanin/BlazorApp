@@ -4,6 +4,7 @@ using BlazorApp.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorApp.Migrations
 {
     [DbContext(typeof(BlazorAppIdentityDbContext))]
-    partial class BlazorAppIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240604181522_Migrations4")]
+    partial class Migrations4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,7 +120,7 @@ namespace BlazorApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ImageFile", (string)null);
+                    b.ToTable("ImageFiles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -150,13 +152,13 @@ namespace BlazorApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "20348bcf-31d4-431f-8e24-121c3bd9824f",
+                            Id = "273674b2-09e2-47a0-9b7b-fd3c3887e4d6",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "e6965dc4-7d4b-43ab-a1d7-4ead9ec46cbf",
+                            Id = "4819370b-360a-432c-a88a-1119167091a3",
                             Name = "user",
                             NormalizedName = "user"
                         });
@@ -274,13 +276,13 @@ namespace BlazorApp.Migrations
 
             modelBuilder.Entity("BlazorApp.Models.ImageFile", b =>
                 {
-                    b.HasOne("BlazorApp.Areas.Identity.Data.ApplicationUser", "User")
+                    b.HasOne("BlazorApp.Areas.Identity.Data.ApplicationUser", "ApplicationUser")
                         .WithMany("ImageFiles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -137,12 +137,17 @@ namespace BlazorApp.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName,
                     LastName = Input.LastName
                 };
-                await _userStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                
+            var existingUser = await _userManager.FindByEmailAsync(Input.Email);
+            if(existingUser != null)
+            {
+                ModelState.AddModelError(string.Empty, $"{Input.Email} is already taken.");
+                return Page();
+            }
 
-                if (result.Succeeded)
-                {
+            var result = await _userManager.CreateAsync(user, Input.Password);
+            if (result.Succeeded)
+            {
                     _logger.LogInformation("User created a new account with password.");
 
                     await _userManager.AddToRoleAsync(user, "user");
@@ -157,8 +162,6 @@ namespace BlazorApp.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -169,11 +172,12 @@ namespace BlazorApp.Areas.Identity.Pages.Account
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
-                }
-                foreach (var error in result.Errors)
-                {
+            }
+
+            foreach (var error in result.Errors)
+            {
                     ModelState.AddModelError(string.Empty, error.Description);
-                }
+            }
             }
 
             // If we got this far, something failed, redisplay form
