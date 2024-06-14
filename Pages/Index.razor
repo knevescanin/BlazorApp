@@ -5,16 +5,23 @@
 @using BlazorApp.Repositories;
 @using BlazorApp.Utilities;
 @using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.EntityFrameworkCore
 @using Microsoft.Extensions.Logging
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
 @using Microsoft.AspNetCore.SignalR.Client;
+@using BlazorApp.Areas.Identity.Data;
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Identity;
+
+
 
 @inject ILogger<Index> Logger
 @inject IFileUploadService fileService
 @inject IImageUploadRepository imageUploadRepo
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager Navigation
+@inject UserManager<ApplicationUser> _UserManager
 
 <AuthorizeView>
     <Authorized Context="authContext">
@@ -24,7 +31,36 @@
         <label for="fileInput" class="custom-file-label">Choose Files</label>
         <InputFile id="fileInput" class="input-file" OnChange="@SelectFiles" multiple />
         <br />
+        <p class="mt-4"style="font-weight: bold;">Select people you want to see uploaded image: </p>
+        
+        <Dropdown class="custom-file-label"style="border-radius: 100px;">
+                <DropdownToggle style="font-weight: bold; color: black; ">
+                    Select
+                </DropdownToggle>
+                <DropdownMenu style="text-align: center; background: lightblue; border-radius: 13px; border: solid  grey ">
+                    <DropdownItem @onclick="() => resetSelectedUsers()" style="color:red; font-weight: bold;">Reset selection!</DropdownItem>
+                    <DropdownDivider></DropdownDivider>
+                    <DropdownItem @onclick="() => selectAllUsers()" style="color:green; font-weight: bold;">Select all!</DropdownItem>
+                @foreach(var user in dropDownUsers)
+                {
+                    <DropdownDivider></DropdownDivider>
+                    <DropdownItem @onclick="() => selectUsers(user)" style="font-weight: bold;">@user.UserName</DropdownItem>
+                }
+                </DropdownMenu>
+        </Dropdown>
+        <br>
         <button class="mt-4 mx-2 mb-3 custom-file-label" type="submit">Upload</button>
+        @if(selectedUsers.Count != 0)
+        {
+            <p style="font-weight: bold;">Currently selected :</p>
+        <p>
+            @foreach(var user in selectedUsers)
+            {
+                <span style="font-style: italic;">@user.UserName</span>
+                @if(user != selectedUsers.Last()) { <span>, </span> } 
+            }
+    </p>
+        } 
     </EditForm>
 
     @if (loading)
@@ -41,7 +77,6 @@
         }
     </ul>
 
-    
 
     @if(images.Count>0)
     {
@@ -53,12 +88,29 @@
            
                 <div style="text-align: center;">
                         <img src="/Uploads/@image.ImageName" alt="image" style="object-fit: contain; width: 250px; height: 200px; cursor: pointer;" @onclick="() => OpenModal(image.ImageName, image.Id)" />
-                        <!-- Display the upload date and time -->
                         <p style="color: gray;">@image.DateUploaded.ToString("dd-MM-yyyy HH:mm:ss")</p>
-                    </div>
+                </div>
         }
     </div>
     }
+
+    @if(othersImages.Count>0)
+    {
+    <hr class="mb-4 mt-5" style="color: blue; height: 1.75px;">
+    <h2 style="font-weight: bold;">Others Uploaded Images</h2>
+     <div style="display:flex; gap: 20px; flex-wrap:wrap; @(othersImages.Count > 4 ? "justify-content: space-evenly" : "")">
+        @foreach (var image in othersImages)
+        {
+           
+                <div style="text-align: center;">
+                        <img src="/Uploads/@image.ImageName" alt="image" style="object-fit: contain; width: 250px; height: 200px; cursor: pointer;" @onclick="() => OpenModal(image.ImageName, image.Id)" />
+                        <p style="color: gray;">@image.DateUploaded.ToString("dd-MM-yyyy HH:mm:ss")</p>
+                </div>
+        }
+    </div>
+    }
+
+
     </Authorized>
     
     <NotAuthorized>
@@ -67,6 +119,7 @@
 </AuthorizeView>
 
 <style>
+    
     .input-file {
     display: none;
 }
@@ -87,8 +140,6 @@
 <ImageModal IsVisible="@isModalVisible" ImageUrl="@selectedImageUrl" ImageId="@selectedImageId" IsVisibleChanged="@(visible => isModalVisible = visible)" OnDelete="DeleteImage" />
 
 
-
-
 @code {
     bool loading = false;
     List<string> messages = new();
@@ -99,17 +150,75 @@
 
     List<ImageFile> images = new();
 
+    List<ImageFile> othersImages = new();
+
+    List<ApplicationUser> dropDownUsers = new();
+
+    List<ApplicationUser> selectedUsers = new();
+
     private bool isModalVisible = false;
     private string selectedImageUrl;
-     private int selectedImageId;
+    private int selectedImageId;
 
-     private HubConnection hubConnection;
+    private HubConnection hubConnection;
 
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        hubConnection = new HubConnectionBuilder() // Added for SignalR
+            .WithUrl(Navigation.ToAbsoluteUri("/imagehub")) // Added for SignalR
+            .Build(); // Added for SignalR
+
+        hubConnection.On<string>("ReceiveImageUpdate", (imageId) => // Added for SignalR
+        {
+            LoadImages(); // Reload images when an update is received
+        }); // Added for SignalR
+
+        hubConnection.On<int>("ReceiveImageDelete", (imageId) => // Added for SignalR
+        {
+            images.RemoveAll(image => image.Id == imageId);
+            StateHasChanged(); // Update the UI when an image is deleted
+        }); // Added for SignalR
+
+        await hubConnection.StartAsync(); // Added for SignalR
+
+
+        messages.Clear();
+        loading = true;
+        await LoadUsers();
+        await LoadImages();
+        resetSelectedUsers();
+        loading = false;
+    }
     private async void SelectFiles(InputFileChangeEventArgs e)
     {
         files = e.GetMultipleFiles(maxFileSize).ToList();
     }
 
+   private void selectUsers(ApplicationUser user)
+    {
+        if (!selectedUsers.Contains(user))
+        {
+            selectedUsers.Add(user);
+        }
+    }
+
+    void selectAllUsers()
+    {
+        foreach(var user in dropDownUsers)
+        {
+            selectedUsers.Add(user);
+        }
+    }
+
+    void resetSelectedUsers()
+    {
+        if (selectedUsers.Count != 0)
+        {
+            selectedUsers.Clear();
+        }
+    }
 
     private async Task HandleFormSubmit()
     {
@@ -133,6 +242,14 @@
                     // saving imagename to database
                     var userId = await GetUserId();
                     await hubConnection.SendAsync("UploadImageToDb", imageData, userId);
+
+                    if(selectedUsers.Count > 0)
+                    {
+                        foreach(var user in selectedUsers)
+                        {
+                             await hubConnection.SendAsync("UploadImageToOthersUsers", imageData, user.Id);
+                        }
+                    }
                     count++;
                 }
                 else
@@ -145,37 +262,12 @@
                 Logger.LogError(ex.Message);
             }
         }
-
+        resetSelectedUsers();
         loading = false;
         messages.Add($"{count}/{files.Count} uploaded");
     }
 
-     protected override async Task OnInitializedAsync()
-    {
-
-        hubConnection = new HubConnectionBuilder() // Added for SignalR
-            .WithUrl(Navigation.ToAbsoluteUri("/imagehub")) // Added for SignalR
-            .Build(); // Added for SignalR
-
-        hubConnection.On<string>("ReceiveImageUpdate", (imageId) => // Added for SignalR
-        {
-            LoadImages(); // Reload images when an update is received
-        }); // Added for SignalR
-
-        hubConnection.On<int>("ReceiveImageDelete", (imageId) => // Added for SignalR
-        {
-            images.RemoveAll(image => image.Id == imageId);
-            StateHasChanged(); // Update the UI when an image is deleted
-        }); // Added for SignalR
-
-        await hubConnection.StartAsync(); // Added for SignalR
-
-
-        messages.Clear();
-        loading = true;
-        await LoadImages();
-        loading = false;
-    }
+     
 
      private async Task LoadImages()
     {
@@ -183,6 +275,7 @@
         {
             var userId = await GetUserId();
             images = (await imageUploadRepo.GetImages(userId)).ToList();
+            othersImages = (await imageUploadRepo.GetImagesFromOtherUsers(userId)).ToList();
         }
         catch(Exception ex)
         {
@@ -191,6 +284,21 @@
         }
         messages.Clear();
         StateHasChanged();
+    }
+
+    private async Task LoadUsers()
+    {
+        try
+        {
+            var currentUserId = await GetUserId();
+            var allUsers = await _UserManager.Users.ToListAsync();
+            dropDownUsers = allUsers.Where(user => user.Id != currentUserId).ToList();
+        }
+        catch (Exception ex)
+        {
+            messages.Add($"Could not load users. Error: {ex.Message}");
+            Logger.LogError(ex, "Error loading users");
+        }
     }
 
     private async Task<string> GetUserId()

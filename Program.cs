@@ -9,6 +9,10 @@ using BlazorApp.Repositories;
 using BlazorApp.Utilities;
 using Microsoft.AspNetCore.SignalR;
 using BlazorApp.Hubs;
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("BlazorAppIdentityDbContextConnection");
@@ -28,6 +32,14 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
 builder.Services.AddTransient<IImageUploadRepository,ImageUploadRepository>();
 builder.Services.AddTransient<IFileUploadService,FileUploadService>();
+builder.Services
+    .AddBlazorise(options =>
+    {
+        options.Immediate = true;
+    })
+    .AddBootstrapProviders()
+    .AddFontAwesomeIcons();
+
 
 builder.Services.AddSignalR();
 

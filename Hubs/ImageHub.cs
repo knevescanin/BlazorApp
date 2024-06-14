@@ -29,6 +29,12 @@ namespace BlazorApp.Hubs{
             await BroadcastImageUpdate(image.Id.ToString()); // Assuming ImageName is the URL
         }
 
+        public async Task UploadImageToOthersUsers(ImageFile image, string userId)
+        {
+            await _repository.UploadImageToOtherUsers(image, userId);
+            await BroadcastImageUpdate(image.Id.ToString()); // Assuming ImageName is the URL
+        }
+
         public async Task DeleteImageFromDb(int imageId, string userId)
         {
             await _repository.DeleteImageFromDb(imageId, userId);
