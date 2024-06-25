@@ -10,7 +10,7 @@ public interface IImageUploadRepository
     Task UploadImageToOtherUsers(ImageFile image, string userId);
     Task<IEnumerable<ImageFile>> GetImages(string userId);
     Task<IEnumerable<ImageFile>> GetImagesFromOtherUsers(string userId);
-
+    Task<string> GetUsername(ImageFile image);
     Task DeleteImageFromDb(int imageId, string userId);
 }
 
@@ -59,6 +59,16 @@ public class ImageUploadRepository : IImageUploadRepository
         var images = await connection.QueryAsync<ImageFile>(sql, new { UserId = userId });
 
         return images;
+    }
+
+    public async Task<string> GetUsername(ImageFile image)
+    {
+        var connectionString = _config.GetConnectionString(CONN_KEY);
+        using IDbConnection connection = new SqlConnection(connectionString);
+        string sql = "SELECT u.UserName FROM AspNetUsers u JOIN ImageFile i ON u.Id = i.UserId JOIN ImageFile_UserAccess a ON i.ImageName = a.ImageName WHERE a.ImageName = @ImageName";
+        var username = await connection.QueryFirstOrDefaultAsync<string>(sql, new { ImageName = image.ImageName });
+
+        return username;
     }
 
      public async Task DeleteImageFromDb(int imageId, string userId)
